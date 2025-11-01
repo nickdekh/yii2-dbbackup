@@ -11,7 +11,7 @@ class DbBackupBootstrap implements BootstrapInterface
         // Only attach in console mode
         if ($app instanceof Application) {
             $app->controllerMap['db-backup'] = [
-                'class' => 'nickdekh\\dbbackup\\Command\\DbBackupController',
+                'class' => 'nickdekh\\dbbackup\\commands\\DbBackupController',
             ];
         }
     }
