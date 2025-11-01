@@ -1,0 +1,36 @@
+{
+  "name": "nickdekh/yii2-dbbackup",
+  "description": "Reusable Yii2 DB backup console command",
+  "type": "yii2-extension",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Nick Yegorov",
+      "email": "nickdekh@gmail.com"
+    }
+  ],
+  "contributor": [
+    {
+      "name": "Pavel Paschenko",
+      "email": "pasha.pashenko@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "nickdekh\\dbbackup\\": "src/"
+    }
+  },
+  "minimum-stability": "dev",
+  "extra": {
+    "bootstrap": "nickdekh\\dbbackup\\DbBackupBootstrap"
+  },
+  "require": {
+    "php": ">=8.1",
+    "yiisoft/yii2": ">=2.0.45"
+  },
+  "config": {
+    "allow-plugins": {
+      "yiisoft/yii2-composer": true
+    }
+  }
+}
