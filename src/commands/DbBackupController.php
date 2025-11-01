@@ -57,7 +57,7 @@ class DbBackupController extends Controller
     {
         extract($this->getDbInfo());
 
-        $parts = ["mysqldump --single-transaction=TRUE --user=$username --password=$password --host=$host"];
+        $parts = ["mysqldump --single-transaction=TRUE --insert-ignore --skip-lock-tables --user=$username --password=$password --host=$host"];
         if (!empty($port)) {
             $parts[] = "--port=$port";
         }
