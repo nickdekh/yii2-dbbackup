@@ -53,7 +53,7 @@ class DbBackupController extends Controller
         return $info;
     }
 
-    public function actionRun($dir = '/backup/db_backup', $max_age = 7 * 24 * 3600)
+    public function actionRun($dir = '/backup/db_backup', $max_age = 7 * 24 * 3600, $gzip_compression_level = '-6')
     {
         extract($this->getDbInfo());
 
@@ -62,7 +62,7 @@ class DbBackupController extends Controller
             $parts[] = "--port=$port";
         }
         $filename = $dir . DIRECTORY_SEPARATOR . $dbname . '-' . date('YmdHi') . '.sql.gz' ;
-        $parts[] = "--quick --max_allowed_packet=512M $dbname | gzip -c > ${filename}";
+        $parts[] = "--quick --max_allowed_packet=512M $dbname | gzip $gzip_compression_level -c > ${filename}";
         $command = implode(' ', $parts);
 
         `$command`;
