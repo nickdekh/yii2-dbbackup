@@ -3,10 +3,14 @@
 namespace nickdekh\dbbackup\commands;
 
 use Yii;
+use yii\base\InvalidConfigException;
 use yii\console\Controller;
 
 class DbBackupController extends Controller
 {
+    /**
+     * @throws InvalidConfigException
+     */
     function getDbInfo(string $component = 'db'): array
     {
         $db = Yii::$app->get($component);
@@ -34,7 +38,7 @@ class DbBackupController extends Controller
             foreach (explode(';', $params) as $pair) {
                 if ($pair === '') continue;
                 // some DSNs have "=" between key and value
-                if (strpos($pair, '=') !== false) {
+                if (str_contains($pair, '=')) {
                     list($k, $v) = explode('=', $pair, 2);
                     $k = trim($k);
                     $v = trim($v);
@@ -50,10 +54,15 @@ class DbBackupController extends Controller
             }
         }
 
+        /** @var string[] $info */
         return $info;
     }
 
-    public function actionRun($dir = '/backup/db_backup', $max_age = 7 * 24 * 3600, $gzip_compression_level = '-6')
+    /**
+     * @noinspection PhpUnused
+     * @throws InvalidConfigException
+     */
+    public function actionRun($dir = '/backup/db_backup', $max_age = 7 * 24 * 3600, $gzip_compression_level = '-6'): void
     {
         extract($this->getDbInfo());
 
@@ -62,7 +71,7 @@ class DbBackupController extends Controller
             $parts[] = "--port=$port";
         }
         $filename = $dir . DIRECTORY_SEPARATOR . $dbname . '-' . date('YmdHi') . '.sql.gz' ;
-        $parts[] = "--quick --max_allowed_packet=512M $dbname | gzip $gzip_compression_level -c > ${filename}";
+        $parts[] = "--quick --max_allowed_packet=512M $dbname | gzip $gzip_compression_level -c > $filename";
         $command = implode(' ', $parts);
 
         `$command`;
